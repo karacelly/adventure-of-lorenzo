@@ -1,0 +1,2 @@
+D:\BINUS\Aslab\TPA Game\Unity New\Adventure of Lorenzo\obj\Debug\Unity.Animation.Rigging.csprojAssemblyReference.cache
+D:\BINUS\Aslab\TPA Game\Unity New\Adventure of Lorenzo\obj\Debug\Unity.Animation.Rigging.csproj.CoreCompileInputs.cache

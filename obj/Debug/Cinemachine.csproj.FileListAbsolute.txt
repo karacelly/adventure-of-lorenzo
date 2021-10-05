@@ -1,0 +1,2 @@
+D:\BINUS\Aslab\TPA Game\Unity New\Adventure of Lorenzo\obj\Debug\Cinemachine.csprojAssemblyReference.cache
+D:\BINUS\Aslab\TPA Game\Unity New\Adventure of Lorenzo\obj\Debug\Cinemachine.csproj.CoreCompileInputs.cache

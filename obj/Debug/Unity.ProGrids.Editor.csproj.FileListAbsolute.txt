@@ -1,0 +1,2 @@
+D:\BINUS\Aslab\TPA Game\Unity New\Adventure of Lorenzo\obj\Debug\Unity.ProGrids.Editor.csprojAssemblyReference.cache
+D:\BINUS\Aslab\TPA Game\Unity New\Adventure of Lorenzo\obj\Debug\Unity.ProGrids.Editor.csproj.CoreCompileInputs.cache
