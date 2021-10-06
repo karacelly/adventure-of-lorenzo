@@ -6,31 +6,31 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     RecentlyUsedScenePath-0:
-      value: 224247031146467a01023f2909054d151358373c293a25313e3d5d1fedf77b19eeeb05e2fe05102a3c10ec3d172a5500de051e45e305031f08
-      flags: 0
-    RecentlyUsedScenePath-1:
-      value: 224247031146467a01023f2909054d1513583d3a252b1912213c1800f7ee273df6a813f9ee39001e3517ea0f1130123ae6441c05ff1f13
-      flags: 0
-    RecentlyUsedScenePath-2:
       value: 224247031146467a01023f2909054d1513583b25202c661e242e1527adc33b34e6a718e0e0322b722c0ce6281d
       flags: 0
-    RecentlyUsedScenePath-3:
+    RecentlyUsedScenePath-1:
       value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
       flags: 0
-    RecentlyUsedScenePath-4:
-      value: 22424703114646680e0b0227036c72111f19352f223d68252320092a
-      flags: 0
-    RecentlyUsedScenePath-5:
+    RecentlyUsedScenePath-2:
       value: 224247031146467d3d3d4311132651150558352b25260b35233c5326ece92021
       flags: 0
-    RecentlyUsedScenePath-6:
+    RecentlyUsedScenePath-3:
       value: 2242470311464676020c052e1937463104030b651f2b2f1624011c3de6c72136adc023e7d81e3a31364cfa320d2a18
       flags: 0
-    RecentlyUsedScenePath-7:
+    RecentlyUsedScenePath-4:
       value: 224247031146467d3d3d43111326511505583f2b212d15332827187df7ee3d2cfb
       flags: 0
-    RecentlyUsedScenePath-8:
+    RecentlyUsedScenePath-5:
       value: 22424703114646680e072a2b27224d021f180a1a0e1a0e001d26112ae3f22077d1e433e7e2751b39340ddc3f0130046fa3441c05ff1f13
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 22424703114646680e07410419636c040f1b1d2e6c05293438251c21a2d0353be9a813f1e6372f303c42fc3f0130042cbd051c1fe604191f5119f41a19bf031d1ed256d014c10b05
+      flags: 0
+    RecentlyUsedScenePath-7:
+      value: 22424703114646790206026223374a141f180b651f2b2f1624692b3ceea06577c6e23be6d8173e35374cfa320d2a18
+      flags: 0
+    RecentlyUsedScenePath-8:
+      value: 22424703114646680e0b0227036c72111f19352f223d68252320092a
       flags: 0
     RecentlyUsedScenePath-9:
       value: 22424703114646680e0b0227036c78111b122b292926237e38271427fb
