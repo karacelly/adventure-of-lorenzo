@@ -22,7 +22,7 @@ public class Gun : MonoBehaviour
         timer += Time.deltaTime;
         if(timer >= fireRate)
         {
-            if (Input.GetButton("Fire1"))
+            if (!UIController.inDialogue && Input.GetButton("Fire1"))
             {
                 timer = 0f;
                 FireGun();

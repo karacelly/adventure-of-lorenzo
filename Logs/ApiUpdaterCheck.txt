@@ -1,0 +1,90 @@
+[api-updater (non-obsolete-error-filter)] 10/11/2021 12:20:21 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 2187.5071ms
+moved types parse time: 87ms
+candidates parse time : 1ms
+C# parse time         : 988ms
+candidates check time : 53ms
+console write time    : 7ms
+
+[api-updater (non-obsolete-error-filter)] 10/11/2021 2:24:58 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 521.0032ms
+moved types parse time: 83ms
+candidates parse time : 1ms
+C# parse time         : 268ms
+candidates check time : 34ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 10/11/2021 4:18:46 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 706.9814ms
+moved types parse time: 66ms
+candidates parse time : 1ms
+C# parse time         : 274ms
+candidates check time : 59ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 10/19/2021 10:57:11 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 1849.351ms
+moved types parse time: 98ms
+candidates parse time : 1ms
+C# parse time         : 1188ms
+candidates check time : 44ms
+console write time    : 8ms
+
+[api-updater (non-obsolete-error-filter)] 10/20/2021 10:57:14 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 1570.7748ms
+moved types parse time: 84ms
+candidates parse time : 1ms
+C# parse time         : 1032ms
+candidates check time : 82ms
+console write time    : 12ms
+
+[api-updater (non-obsolete-error-filter)] 10/20/2021 10:59:45 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 109.0169ms
+moved types parse time: 59ms
+candidates parse time : 1ms
+C# parse time         : 260ms
+candidates check time : 62ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 10/20/2021 11:10:43 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 110.0034ms
+moved types parse time: 63ms
+candidates parse time : 1ms
+C# parse time         : 229ms
+candidates check time : 41ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 10/21/2021 1:11:03 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 1808.5447ms
+moved types parse time: 90ms
+candidates parse time : 1ms
+C# parse time         : 1307ms
+candidates check time : 48ms
+console write time    : 13ms
+
+[api-updater (non-obsolete-error-filter)] 10/21/2021 1:55:37 PM : Starting D:/Unity/Hub/Editor/2020.3.18f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 1248.1458ms
+moved types parse time: 89ms
+candidates parse time : 1ms
+C# parse time         : 920ms
+candidates check time : 48ms
+console write time    : 0ms
+

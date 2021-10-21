@@ -8,6 +8,7 @@ ScriptsOnlyBuild:
     - HealthLogic
     - MainMenu
     - RaycastWeapon
+    - Readme
     - SettingsMenu
     Cinemachine.dll:
     - Cinemachine.Cinemachine3rdPersonFollow
@@ -20,8 +21,6 @@ ScriptsOnlyBuild:
     - CinemachineCameraOffset
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
-    - UnityEditor.Tilemaps.GridPaletteBrushes
-    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
@@ -157,9 +156,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4252}
     - Class: 114
-      Script: {instanceID: 6360}
+      Script: {instanceID: 6352}
     - Class: 114
-      Script: {instanceID: 45330}
+      Script: {instanceID: 6362}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 136
@@ -274,7 +273,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 5796}
     - Class: 114
-      Script: {instanceID: 357442}
+      Script: {instanceID: 43550}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1612,6 +1611,12 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
+      Hash: a1527141015f9884848f274120dd2ffa
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DoorOpen
+  - hash:
+      serializedVersion: 2
       Hash: bd543bad7f9f6262f10595aadb130d22
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
@@ -1682,15 +1687,8 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ActiveWeapon
-  - hash:
-      serializedVersion: 2
-      Hash: a1527141015f9884848f274120dd2ffa
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: DoorOpen
   platform: 19
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/GameScene.unity
-  playerPath: D:/BINUS/Aslab/TPA Game/Unity New/Adventure of Lorenzo/Adventure of
-    Lorenzo.exe
+  playerPath: D:/BINUS/Aslab/TPA Game/Unity New/EXE/Adventure of Lorenzo.exe

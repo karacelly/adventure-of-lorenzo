@@ -13,15 +13,15 @@ public class CharacterAimingScript : MonoBehaviour
     public Cinemachine.AxisState xAxis;
     public Cinemachine.AxisState yAxis;
 
+    public GameObject weaponObject;
+
     Camera mainCamera;
     RaycastWeapon weapon;
 
     void Start()
     {
         mainCamera = Camera.main;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        weapon = GetComponentInChildren<RaycastWeapon>();
+        weapon = weaponObject.GetComponent<RaycastWeapon>();
     }
 
     void fixedUpdate()
@@ -51,13 +51,22 @@ public class CharacterAimingScript : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (PlayerController.shooterMode)
         {
-            weapon.StartFiring();
+            if (Input.GetButtonDown("Fire1"))
+            {
+                weapon.StartFiring();
+            }
+            if (weapon.isFiring)
+            {
+                weapon.UpdateFiring(Time.deltaTime);
+            }
+            weapon.UpdateBullets(Time.deltaTime);
+            if (Input.GetButtonUp("Fire1"))
+            {
+                weapon.StopFiring();
+            }
         }
-        if (Input.GetButtonUp("Fire1"))
-        {
-            weapon.StopFiring();
-        }
+        
     }
 }
