@@ -1,34 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class RaycastWeapon : MonoBehaviour
 {
-    class Bullet
-    {
-        public float time;
-        public Vector3 initialPosition;
-        public Vector3 initialVelocity;
-        public TrailRenderer tracer;
-    }
-
     public bool isFiring = false;
 
     public int fireRate = 25;
     public float bulletSpeed = 1000.0f;
     public float bulletDrop = 0.0f;
     public int damage = 10;
+    private bool isReloading = false;
 
-    public int maxAmmo = 10;
+    public int maxWeaponAmmo;
+    public int maxAmmo;
     private int currentAmmo;
     public float reloadTime = 1f;
 
     public ParticleSystem muzzleFlash;
     public ParticleSystem hitEffect;
     public TrailRenderer tracerEffect;
+    public TextMeshProUGUI ammoDets;
 
     public Transform raycastOrigin;
     public Transform raycastDest;
+    public GameObject reloadingDets;
 
     Ray ray;
     RaycastHit hitInfo;
@@ -45,15 +41,21 @@ public class RaycastWeapon : MonoBehaviour
         bulletDrop = 0.0f;
         damage = 10;
 
-        if(currentAmmo <= 0)
-        {
-            currentAmmo = maxAmmo;
-        }
-        gunSfx = GetComponent<AudioSource>();   
+        currentAmmo = maxAmmo;
+        gunSfx = GetComponent<AudioSource>();
+
+    }
+
+    private void OnEnable()
+    {
+        isReloading = false;
+
     }
 
     void Update()
     {
+        if (isReloading) return;
+
         if(currentAmmo <= 0)
         {
             StartCoroutine(Reload());
@@ -63,11 +65,19 @@ public class RaycastWeapon : MonoBehaviour
 
     IEnumerator Reload()
     {
+        isReloading = true;
         Debug.Log("Reloading");
+        reloadingDets.SetActive(true);
 
         yield return new WaitForSeconds(reloadTime);
 
+        Debug.Log("done reloading");
+        reloadingDets.SetActive(false);
+
         currentAmmo = maxAmmo;
+        maxWeaponAmmo -= maxAmmo;
+        isReloading = false;
+        ammoDets.text = currentAmmo + " | " + maxWeaponAmmo;
     }
 
     Vector3 GetPosition(Bullet bullet)
@@ -92,7 +102,7 @@ public class RaycastWeapon : MonoBehaviour
     {
         isFiring = true;
         accumulatedTime = 0;
-        currentAmmo--;
+        
         FireBullet();
     }
 
@@ -121,6 +131,7 @@ public class RaycastWeapon : MonoBehaviour
             bullet.time += deltaTime;
             Vector3 p1 = GetPosition(bullet);
             RaycastSegment(p0, p1, bullet);
+            
         });
     }
 
@@ -151,7 +162,7 @@ public class RaycastWeapon : MonoBehaviour
             if (hitInfo.collider.gameObject.tag.Equals("Enemy"))
             {
                 Debug.Log("enemy take damage!");
-                EnemyAiTutorial enemy = hitInfo.collider.gameObject.GetComponent<EnemyAiTutorial>();
+                Enemy enemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
                 Debug.Log("dmg " + damage);
                 enemy.TakeDamage(this.damage);
             }
@@ -164,12 +175,17 @@ public class RaycastWeapon : MonoBehaviour
 
     private void FireBullet()
     {
-        muzzleFlash.Emit(1);
-        gunSfx.Play();
+        if(currentAmmo >= 1)
+        {
+            muzzleFlash.Emit(1);
+            gunSfx.Play();
 
-        Vector3 velocity = (raycastDest.position - raycastOrigin.position).normalized * bulletSpeed;
-        var bullet = CreateBullet(raycastOrigin.position, velocity);
-        bullets.Add(bullet);
+            Vector3 velocity = (raycastDest.position - raycastOrigin.position).normalized * bulletSpeed;
+            var bullet = CreateBullet(raycastOrigin.position, velocity);
+            bullets.Add(bullet);
+            currentAmmo--;
+            ammoDets.text = currentAmmo + " | " + maxWeaponAmmo;
+        }
 
     }
 

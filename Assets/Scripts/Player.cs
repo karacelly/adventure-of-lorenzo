@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 		currentHealth = maxHealth;
         //inventory = GetComponent<Inventory>();
 		healthBar.SetMaxHealth(maxHealth);
+        
     }
 
     // Update is called once per frame
