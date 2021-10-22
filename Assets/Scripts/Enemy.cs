@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
     Animator animator;
-    RaycastWeapon weapon;
+    public RaycastWeapon weapon;
 
     //Patroling
     public Vector3 walkPoint;
@@ -45,7 +45,6 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        weapon = GetComponentInChildren<RaycastWeapon>();
         currentHealth = maxHealth;
         //inventory = GetComponent<Inventory>();
         healthBar.SetMaxHealth(maxHealth);
@@ -86,7 +85,8 @@ public class Enemy : MonoBehaviour
     {
         //Make sure enemy doesn't move
         rifle_shoot.SetActive(true);
-        Debug.Log("attack player mode");
+        rifle_walk.SetActive(false);
+
         animator.SetBool("isShooting", true);
         agent.SetDestination(transform.position);
 
@@ -94,7 +94,12 @@ public class Enemy : MonoBehaviour
 
         if (!alreadyAttacked)
         {
-            
+            weapon.StartFiring();
+            if (weapon.isFiring)
+            {
+                weapon.UpdateFiring(Time.deltaTime);
+            }
+            weapon.UpdateBullets(Time.deltaTime);
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);

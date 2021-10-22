@@ -36,6 +36,10 @@ public class EnemyWeapon : MonoBehaviour
         gunSfx = GetComponent<AudioSource>();
     }
 
+    void Update()
+    {
+        UpdateBullets(Time.deltaTime);
+    }
 
     Vector3 GetPosition(Bullet bullet)
     {
@@ -116,12 +120,13 @@ public class EnemyWeapon : MonoBehaviour
             bullet.time = maxLifeTime;
 
             //Debug.Log(hitInfo.collider.name);
-            if (hitInfo.collider.gameObject.tag.Equals("Enemy"))
+            if (hitInfo.collider.gameObject.tag.Equals("Player"))
             {
-                Debug.Log("enemy take damage!");
-                Enemy enemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
+                Debug.Log("player take damage!");
+
+                Player player = hitInfo.collider.gameObject.GetComponent<Player>();
                 Debug.Log("dmg " + damage);
-                enemy.TakeDamage(this.damage);
+                player.TakeDamage(this.damage);
             }
         }
         else
@@ -133,7 +138,7 @@ public class EnemyWeapon : MonoBehaviour
     private void FireBullet()
     {
         muzzleFlash.Emit(1);
-        gunSfx.Play();
+        //gunSfx.Play();
 
         Vector3 velocity = (raycastDest.position - raycastOrigin.position).normalized * bulletSpeed;
         var bullet = CreateBullet(raycastOrigin.position, velocity);

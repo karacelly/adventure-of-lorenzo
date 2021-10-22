@@ -10,8 +10,10 @@ public class Player : MonoBehaviour
 	public int maxHealth;
 	public int currentHealth;
     public Inventory inventory;
+    Animator animator;
 
     private int coreItems;
+    public static bool isDead;
 
 	public HealthBar healthBar;
     public Text coreItemUI;
@@ -23,7 +25,9 @@ public class Player : MonoBehaviour
 		currentHealth = maxHealth;
         //inventory = GetComponent<Inventory>();
 		healthBar.SetMaxHealth(maxHealth);
-        
+        animator = GetComponent<Animator>();
+
+        isDead = false;
     }
 
     // Update is called once per frame
@@ -75,11 +79,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
 	{
 		currentHealth -= damage;
 
-		healthBar.SetHealth(currentHealth);
+        if(currentHealth <= 0)
+        {
+            isDead = true;
+            animator.SetBool("isDead", true);
+        }
+        else
+        {
+		    healthBar.SetHealth(currentHealth);
+        }
 	}
 
     internal void useDamageMultiplier()

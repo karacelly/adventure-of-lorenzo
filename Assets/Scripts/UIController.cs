@@ -7,7 +7,7 @@ public class UIController : MonoBehaviour
 {
     public static bool isPaused;
     public static bool inDialogue;
-    public GameObject pauseMenuUI, dialogUI1, playUI;
+    public GameObject pauseMenuUI, dialogUI1, playUI, deathUI;
     public GameObject mainCamera, kenPlayMode, kenDialogueMode;
     public Camera dialogueCam1;
 
@@ -36,6 +36,21 @@ public class UIController : MonoBehaviour
         Time.timeScale = 1f;
         
         isPaused = false;
+    }
+
+    public void DeathGame()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        pauseMenuUI.SetActive(false);
+        playUI.SetActive(false);
+        deathUI.SetActive(true);
+
+        Time.timeScale = 0f;
+
+
+        isPaused = true;
     }
 
     public void RedirectMenu()
@@ -84,6 +99,10 @@ public class UIController : MonoBehaviour
                 {
                     PauseGame();
                 }
+            } 
+            else if (Player.isDead)
+            {
+                DeathGame();
             }
         }
     }

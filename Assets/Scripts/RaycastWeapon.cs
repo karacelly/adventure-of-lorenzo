@@ -36,10 +36,8 @@ public class RaycastWeapon : MonoBehaviour
 
     public void Start()
     {
-        fireRate = 25;
         bulletSpeed = 1000.0f;
         bulletDrop = 0.0f;
-        damage = 10;
 
         currentAmmo = maxAmmo;
         gunSfx = GetComponent<AudioSource>();
@@ -54,6 +52,8 @@ public class RaycastWeapon : MonoBehaviour
 
     void Update()
     {
+        UpdateBullets(Time.deltaTime);
+
         if (isReloading) return;
 
         if(currentAmmo <= 0)
@@ -165,6 +165,13 @@ public class RaycastWeapon : MonoBehaviour
                 Enemy enemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
                 Debug.Log("dmg " + damage);
                 enemy.TakeDamage(this.damage);
+            } else if (hitInfo.collider.gameObject.tag.Equals("Player"))
+            {
+                Debug.Log("player take damage!");
+
+                Player player = hitInfo.collider.gameObject.GetComponent<Player>();
+                Debug.Log("dmg " + damage);
+                player.TakeDamage(this.damage);
             }
         }
         else
@@ -184,7 +191,10 @@ public class RaycastWeapon : MonoBehaviour
             var bullet = CreateBullet(raycastOrigin.position, velocity);
             bullets.Add(bullet);
             currentAmmo--;
+
+            
             ammoDets.text = currentAmmo + " | " + maxWeaponAmmo;
+            
         }
 
     }
