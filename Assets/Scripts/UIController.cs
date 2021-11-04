@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-    public static bool isPaused;
+    public static bool isPaused, isFirst;
     public static bool inDialogue;
     public GameObject pauseMenuUI, dialogUI1, playUI, deathUI;
     public GameObject mainCamera, kenPlayMode, kenDialogueMode;
@@ -29,6 +29,8 @@ public class UIController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        Debug.Log(Cursor.lockState);
 
         pauseMenuUI.SetActive(false);
         playUI.SetActive(true);
@@ -86,8 +88,12 @@ public class UIController : MonoBehaviour
             kenDialogueMode.SetActive(false);
             kenPlayMode.SetActive(true);
 
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            if(isFirst)
+            {
+                isFirst = false;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -110,6 +116,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         inDialogue = true;
+        isFirst = true;
         isPaused = false;
     }
 }

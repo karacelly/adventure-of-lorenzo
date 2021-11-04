@@ -10,24 +10,31 @@ public class Enemy : MonoBehaviour
     public Transform player;
 
     public LayerMask whatIsGround, whatIsPlayer;
-    public Transform[] patrolPoints;
+    public List<Transform> patrolPoints = new List<Transform>();
     private int currPatrolPoint;
 
     public int maxHealth;
     public int currentHealth;
     Animator animator;
     public RaycastWeapon weapon;
+    public bool chaseAbility;
 
     //Patroling
     public Vector3 walkPoint;
     bool walkPointSet;
+    public bool inPosition;
     public float walkPointRange;
+    public int patrolIdx;
+    public string enemyType;
+    public int respawnDelay;
+    public int chanceOfDrop;
 
     //Attacking
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject projectile;
     public GameObject rifle_shoot, rifle_walk;
+    public EnemySpawner spawner;
 
     public HealthBar healthBar;
 
@@ -46,10 +53,13 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
-        //inventory = GetComponent<Inventory>();
         healthBar.SetMaxHealth(maxHealth);
         currPatrolPoint = 0;
-        //agent.SetDestination(startPatrol.transform.position);
+        inPosition = false;
+
+        rifle_walk.SetActive(true);
+        rifle_shoot.SetActive(false);
+
     }
 
     void Update()
@@ -59,13 +69,21 @@ public class Enemy : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        if (inPosition && !playerInSightRange && !playerInAttackRange) Patroling();
+        if (chaseAbility && playerInSightRange && !playerInAttackRange) ChasePlayer();
+        if (inPosition && playerInAttackRange && playerInSightRange) AttackPlayer();
+    }
+
+    private void ChasePlayer()
+    {
+        agent.SetDestination(player.position);
     }
 
     private void Patroling()
     {
         rifle_walk.SetActive(true);
+        rifle_shoot.SetActive(false);
+
         animator.SetBool("isShooting", false);
         if (agent.remainingDistance <= 0.1f)
         {
@@ -78,7 +96,7 @@ public class Enemy : MonoBehaviour
 
     private void changePatrolPoint()
     {
-        currPatrolPoint = (currPatrolPoint + 1) % patrolPoints.Length;
+        currPatrolPoint = (currPatrolPoint + 1) % patrolPoints.Count;
     }
 
     private void AttackPlayer()
@@ -91,6 +109,8 @@ public class Enemy : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
+        Debug.Log(name);
+        weapon.raycastDest = player;
 
         if (!alreadyAttacked)
         {
@@ -116,11 +136,35 @@ public class Enemy : MonoBehaviour
         healthBar.SetHealth(this.currentHealth);
         Debug.Log("health rn " + currentHealth + " dmg" + damage);
 
-        if (currentHealth <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (currentHealth <= 0)
+        {
+            Die();
+
+            Invoke(nameof(DestroyEnemy), 0.5f);
+        }
     }
+
+    public bool willDropItem()
+    {
+        if (Random.Range(1, 10) <= chanceOfDrop / 10)
+            return true;
+
+        return false;
+    }
+
+    public void Die()
+    {
+        if (willDropItem())
+        {
+            DropItem dropItem = FindObjectOfType<DropItem>();
+            Instantiate(dropItem.randomItemDrop(), transform.position, Quaternion.identity);
+        }
+    }
+
     private void DestroyEnemy()
     {
         Destroy(gameObject);
+        spawner.cleanPatroliExist(enemyType, patrolIdx, respawnDelay);
     }
 
     private void OnDrawGizmosSelected()

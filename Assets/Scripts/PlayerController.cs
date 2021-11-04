@@ -5,6 +5,9 @@ using UnityEngine.Animations.Rigging;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject explorationCam;
+    public GameObject shootingCam;
+
     public Rig useWeapon;
     public static bool shooterMode;
     public GameObject weaponState;
@@ -28,11 +31,20 @@ public class PlayerController : MonoBehaviour
 
                 if (shooterMode)
                 {
+                    shootingCam.SetActive(true);
+                    explorationCam.SetActive(false);
+
+                    var mouseX = Input.GetAxis("Mouse X");
+                    transform.Rotate(new Vector3(0, mouseX, 0));
+
                     weaponState.SetActive(true);
                     StartCoroutine(SmoothRig(0f, 1f));
                 }
                 else
                 {
+                    shootingCam.SetActive(false);
+                    explorationCam.SetActive(true);
+
                     weaponState.SetActive(false);
                     StartCoroutine(SmoothRig(1f, 0f));
                 }

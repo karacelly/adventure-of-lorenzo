@@ -52,11 +52,19 @@ public class RaycastWeapon : MonoBehaviour
 
     void Update()
     {
-        UpdateBullets(Time.deltaTime);
+
 
         if (isReloading) return;
 
-        if(currentAmmo <= 0)
+        UpdateBullets(Time.deltaTime);
+
+        if (maxWeaponAmmo <= 0) return;
+
+        if (currentAmmo <= 0)
+        {
+            StartCoroutine(Reload());
+            return;
+        }else if (Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(Reload());
             return;
@@ -65,6 +73,8 @@ public class RaycastWeapon : MonoBehaviour
 
     IEnumerator Reload()
     {
+        
+
         isReloading = true;
         Debug.Log("Reloading");
         reloadingDets.SetActive(true);

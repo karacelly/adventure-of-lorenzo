@@ -118,6 +118,14 @@ public class Inventory : MonoBehaviour
 
         slots.Add(s);
 
+        foreach(InventorySlot inv in slots)
+        {
+            if(inv.item != null)
+            {
+                Debug.Log(inv.item.name);
+            }
+        }
+
         updateInventoryUI();
     }
 

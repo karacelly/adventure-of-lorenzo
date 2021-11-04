@@ -9,14 +9,24 @@ public class Player : MonoBehaviour
 
 	public int maxHealth;
 	public int currentHealth;
+    public int maxSkillPt;
+    public int currentSkillPt;
+
     public Inventory inventory;
+    public LineRenderer lineRenderer;
     Animator animator;
 
     private int coreItems;
     public static bool isDead;
 
 	public HealthBar healthBar;
+    public HealthBar skillBar;
     public Text coreItemUI;
+    public GameObject shield;
+    public RaycastWeapon weapon;
+    public Transform aimLookAt;
+
+    private bool firstSpecial = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,11 +38,14 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
 
         isDead = false;
+        shield.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        weapon.transform.LookAt(aimLookAt);
+
 		if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
         {
             inventory.UseItem(1);
@@ -57,6 +70,22 @@ public class Player : MonoBehaviour
         {
             inventory.UseItem(6);
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            StartCoroutine(turnOnRadiusLine());
+        }
+    }
+
+    IEnumerator turnOnRadiusLine()
+    {
+        firstSpecial = true;
+        lineRenderer.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(5);
+
+        lineRenderer.gameObject.SetActive(false);
+        firstSpecial = false;
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -96,17 +125,46 @@ public class Player : MonoBehaviour
 
     internal void useDamageMultiplier()
     {
-        throw new NotImplementedException();
+        Debug.Log("Use damage multiplier");
+        StartCoroutine(applyDamageMultiplier());
+    }
+
+    IEnumerator applyDamageMultiplier()
+    {
+        weapon.damage *= 2;
+
+        yield return new WaitForSeconds(5);
+
+        weapon.damage /= 2;
     }
 
     internal void usePainKiller()
     {
-        throw new NotImplementedException();
+        Debug.Log("Use pain killer");
+        StartCoroutine(applyPainKiller());
+    }
+
+    IEnumerator applyPainKiller()
+    {
+        int prevHealth = currentHealth;
+        currentHealth += 450;
+
+        for(int i=0; i<5; i++)
+        {
+            yield return new WaitForSeconds(1);
+            currentHealth -= 90;
+        }
+
+        if (currentHealth >= prevHealth)
+        {
+            currentHealth = prevHealth;
+        }
     }
 
     internal void useAmmo()
     {
-        throw new NotImplementedException();
+        Debug.Log("Use ammo");
+        weapon.maxAmmo += 30;
     }
 
     internal void useHealthPotion()
@@ -121,11 +179,28 @@ public class Player : MonoBehaviour
 
     internal void useSkillPotion()
     {
-        throw new NotImplementedException();
+        Debug.Log("Use skill potion");
+
+        currentSkillPt += 75;
+
+        if (currentSkillPt > maxSkillPt)
+        {
+            currentSkillPt = maxSkillPt;
+        }
     }
 
     internal void useShield()
     {
-        throw new NotImplementedException();
+        Debug.Log("Use shield");
+        StartCoroutine(activateShield());
+    }
+
+    IEnumerator activateShield()
+    {
+        shield.SetActive(true);
+
+        yield return new WaitForSeconds(7);
+
+        shield.SetActive(false);
     }
 }
