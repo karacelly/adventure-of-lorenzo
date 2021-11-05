@@ -15,6 +15,8 @@ public class CharacterAimingScript : MonoBehaviour
 
     public GameObject weaponObject;
 
+    
+
     Camera mainCamera;
     RaycastWeapon weapon;
 
@@ -53,19 +55,20 @@ public class CharacterAimingScript : MonoBehaviour
 
         if (PlayerController.shooterMode)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButton("Fire1"))
             {
-                weapon.StartFiring();
+                weapon.Shoot();
             }
-            if (weapon.isFiring)
-            {
-                weapon.UpdateFiring(Time.deltaTime);
-            }
-            weapon.UpdateBullets(Time.deltaTime);
-            if (Input.GetButtonUp("Fire1"))
-            {
-                weapon.StopFiring();
-            }
+            
+            //if (weapon.isFiring)
+            //{
+            //    weapon.UpdateFiring(Time.deltaTime);
+            //}
+            //weapon.UpdateBullets(Time.deltaTime);
+            //if (Input.GetButtonUp("Fire1"))
+            //{
+            //    weapon.StopFiring();
+            //}
         }
         
     }

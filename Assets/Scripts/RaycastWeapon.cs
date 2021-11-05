@@ -22,15 +22,18 @@ public class RaycastWeapon : MonoBehaviour
     public TrailRenderer tracerEffect;
     public TextMeshProUGUI ammoDets;
 
-    public Transform raycastOrigin;
+    public bool shootToPlayer;
+    public List<Transform> raycastOrigin;
     public Transform raycastDest;
-    public GameObject reloadingDets;
+    public GameObject reloadingDets, peluru;
+    Player player;
 
     Ray ray;
     RaycastHit hitInfo;
     float accumulatedTime;
     List<Bullet> bullets = new List<Bullet>();
     float maxLifeTime = 3.0f;
+    private float nextTimeToFire = 0f;
 
     private AudioSource gunSfx;
 
@@ -38,7 +41,7 @@ public class RaycastWeapon : MonoBehaviour
     {
         bulletSpeed = 1000.0f;
         bulletDrop = 0.0f;
-
+        player = FindObjectOfType<Player>();
         currentAmmo = maxAmmo;
         gunSfx = GetComponent<AudioSource>();
 
@@ -47,16 +50,13 @@ public class RaycastWeapon : MonoBehaviour
     private void OnEnable()
     {
         isReloading = false;
-
     }
 
     void Update()
     {
-
+        UpdateBullets(Time.deltaTime);
 
         if (isReloading) return;
-
-        UpdateBullets(Time.deltaTime);
 
         if (maxWeaponAmmo <= 0) return;
 
@@ -73,8 +73,6 @@ public class RaycastWeapon : MonoBehaviour
 
     IEnumerator Reload()
     {
-        
-
         isReloading = true;
         Debug.Log("Reloading");
         reloadingDets.SetActive(true);
@@ -108,27 +106,30 @@ public class RaycastWeapon : MonoBehaviour
         return bullet;
     }
 
-    public void StartFiring()
-    {
-        isFiring = true;
-        accumulatedTime = 0;
-        
-        FireBullet();
-    }
+    //public void StartFiring()
+    //{
+    //    isFiring = true;
+    //    accumulatedTime = 0;
+    //}
 
-    public void UpdateFiring(float deltaTime)
-    {
-        accumulatedTime += deltaTime;
-        float fireInterval = 1.0f / fireRate;
-        while(accumulatedTime >= 0)
-        {
-            FireBullet();
-            accumulatedTime -= fireInterval;
-        }
-    }
+    //public void UpdateFiring(float deltaTime)
+    //{
+    //    accumulatedTime += deltaTime;
+    //    float fireInterval = 1.0f / fireRate;
+    //    while(accumulatedTime >= 0 && currentAmmo > 0)
+    //    {
+    //        if (tag == "Enemy")
+    //            FireBullet(player);
+    //        else
+    //            FireBullet(raycastDest);
+    //        accumulatedTime -= fireInterval;
+    //    }
+    //}
 
     public void UpdateBullets(float deltaTime)
     {
+        //Debug.Log("Raycast Weapon >> UpdateBullets()");
+
         SimulateBullets(deltaTime);
         DestroyBullets();
     }
@@ -168,20 +169,22 @@ public class RaycastWeapon : MonoBehaviour
             bullet.tracer.transform.position = hitInfo.point;
             bullet.time = maxLifeTime;
 
-            //Debug.Log(hitInfo.collider.name);
-            if (hitInfo.collider.gameObject.tag.Equals("Enemy"))
+            Debug.Log("Raycast Weapon >> RaycastSegment() >> hitting: " + hitInfo.collider.name);
+            if (hitInfo.collider.tag.Equals("Enemy"))
             {
                 Debug.Log("enemy take damage!");
                 Enemy enemy = hitInfo.collider.gameObject.GetComponent<Enemy>();
                 Debug.Log("dmg " + damage);
-                enemy.TakeDamage(this.damage);
-            } else if (hitInfo.collider.gameObject.tag.Equals("Player"))
+                enemy.TakeDamage(damage);
+
+                player.useSkillPotion(2);
+            } else if (hitInfo.collider.tag.Equals("Player"))
             {
                 Debug.Log("player take damage!");
 
                 Player player = hitInfo.collider.gameObject.GetComponent<Player>();
                 Debug.Log("dmg " + damage);
-                player.TakeDamage(this.damage);
+                player.TakeDamage(damage);
             }
         }
         else
@@ -190,27 +193,59 @@ public class RaycastWeapon : MonoBehaviour
         }
     }
 
-    private void FireBullet()
+    public void Shoot()
     {
-        if(currentAmmo >= 1)
+        Debug.Log("Raycast Weapon >> SHOOT() >> by " + name);
+        if(tag == "Enemy")
         {
-            muzzleFlash.Emit(1);
-            gunSfx.Play();
-
-            Vector3 velocity = (raycastDest.position - raycastOrigin.position).normalized * bulletSpeed;
-            var bullet = CreateBullet(raycastOrigin.position, velocity);
-            bullets.Add(bullet);
-            currentAmmo--;
-
-            
-            ammoDets.text = currentAmmo + " | " + maxWeaponAmmo;
-            
+            FireBullet(player.transform);
         }
-
+        else //player
+        {
+            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && currentAmmo > 0)
+            {
+                nextTimeToFire = Time.time + 1f / fireRate;
+                FireBullet(raycastDest);
+            }
+        }
     }
 
-    public void StopFiring()
+    public void FireBullet(Transform destination)
     {
-        isFiring = false;
+        
+        foreach (Transform rO in raycastOrigin)
+        {
+            Bullet bullet;
+            if (!shootToPlayer)
+            {
+                GameObject o = Instantiate(peluru.gameObject, rO.position, Quaternion.identity);
+                Rigidbody rb = o.GetComponent<Rigidbody>();
+                rb.velocity = o.transform.TransformDirection(rO.forward * bulletSpeed);
+                bullet = CreateBullet(o.transform.position, o.GetComponent<Rigidbody>().velocity);
+                o.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("Raycast Weapon >> shootToPlayer nich >> by " + name);
+                Vector3 newPosition = new Vector3(destination.position.x, rO.position.y, destination.position.z);
+                Vector3 velocity = (newPosition - rO.position).normalized * bulletSpeed;
+                bullet = CreateBullet(rO.position, velocity);
+            }
+            currentAmmo--;
+ 
+            bullets.Add(bullet);
+
+            Debug.Log("Raycast Weapon >> Iterating RayCastOrigin >> by " + name);
+        }
+        if (!name.ToLower().Contains("drone"))
+            muzzleFlash.Emit(1);
+
+        if(tag != "Enemy")
+        {
+            ammoDets.text = currentAmmo + " | " + maxWeaponAmmo;
+        }
+
+        FindObjectOfType<AudioManager>().SFXPlay("GunSFX");
+        Debug.Log("Raycast Weapon >> FireBullet() >> by " + name);
     }
 }

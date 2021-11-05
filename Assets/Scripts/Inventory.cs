@@ -87,7 +87,7 @@ public class Inventory : MonoBehaviour
             }
             else if (use.item.name.ToLower().Equals("skillpotion"))
             {
-                player.useSkillPotion();
+                player.useSkillPotion(75);
             }
             else if (use.item.name.ToLower().Equals("shield"))
             {

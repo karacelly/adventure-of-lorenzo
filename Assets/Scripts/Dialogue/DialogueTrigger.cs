@@ -4,16 +4,29 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-	public Dialogue dialogue;
+	
+	public Dialogue firstDialogue, secondDialogue;
+    private bool isCalled = false;
 
-	public void TriggerDialogue()
+	public void TriggerDialogue(Dialogue dialogue)
 	{
 		FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
 	}
 
     private void Start()
     {
-		TriggerDialogue();
+		TriggerDialogue(firstDialogue);
+    }
+
+    private void Update()
+    {
+
+        if (UIController.inBasement && !isCalled)
+        {
+            isCalled = true;
+            Debug.Log("in basement");
+            TriggerDialogue(secondDialogue);
+        }
     }
 
 }

@@ -26,42 +26,51 @@ public class CharacterScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
-        if (controller.isGrounded && velocity.y < 0)
+        if (!UIController.inDialogue)
         {
-            velocity.y = 0f;
-        }
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        velocity.y -= 9.81f * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+            animator.SetFloat("InputX", horizontal);
+            animator.SetFloat("InputY", vertical);
 
-        //if (PlayerController.shooterMode)
-        //{
-        //    var mouseX = Input.GetAxis("Mouse X");
-        //    transform.Rotate(new Vector3(0, mouseX, 0));
-        //}
+            if (controller.isGrounded && velocity.y < 0)
+            {
+                velocity.y = 0f;
+            }
 
-        if (direction.magnitude >= 0.1f)
-        {
-            animator.SetBool("isWalking", true);
+            velocity.y -= 9.81f * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
 
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-
-            //if (!PlayerController.shooterMode)
+            //if (PlayerController.shooterMode)
             //{
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            //    var mouseX = Input.GetAxis("Mouse X");
+            //    transform.Rotate(new Vector3(0, mouseX, 0));
             //}
 
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDirection.normalized * speed * Time.deltaTime);
-        }
-        else
-        {
-            animator.SetBool("isWalking", false);
+            if (direction.magnitude >= 0.1f)
+            {
+                animator.SetBool("isWalking", true);
+                
+
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+
+                //if (!PlayerController.shooterMode)
+                //{
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                //}
+
+                Vector3 moveDirection = new Vector3(horizontal, 0, vertical);
+                moveDirection = moveDirection.x * cam.right.normalized + moveDirection.z * cam.forward.normalized;
+
+                controller.Move(moveDirection.normalized * speed * Time.deltaTime);
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
+            }
         }
     }
 }

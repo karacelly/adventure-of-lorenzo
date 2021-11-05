@@ -5,67 +5,84 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public NavMeshAgent agent;
 
-    public Transform player;
-
-    public LayerMask whatIsGround, whatIsPlayer;
-    public List<Transform> patrolPoints = new List<Transform>();
-    private int currPatrolPoint;
-
-    public int maxHealth;
-    public int currentHealth;
-    Animator animator;
-    public RaycastWeapon weapon;
-    public bool chaseAbility;
-
-    //Patroling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public bool inPosition;
-    public float walkPointRange;
-    public int patrolIdx;
-    public string enemyType;
-    public int respawnDelay;
-    public int chanceOfDrop;
-
-    //Attacking
-    public float timeBetweenAttacks;
-    bool alreadyAttacked;
-    public GameObject projectile;
-    public GameObject rifle_shoot, rifle_walk;
-    public EnemySpawner spawner;
-
-    public HealthBar healthBar;
-
-    bool changeDirection = false;
-
-    //States
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
-
-    private void Awake()
-    {
-        agent = GetComponent<NavMeshAgent>();
-    }
+    //private void Awake()
+    //{
+        
+        
+    //}
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
-        currPatrolPoint = 0;
-        inPosition = false;
-
-        rifle_walk.SetActive(true);
-        rifle_shoot.SetActive(false);
-
+        initEnemy(); 
     }
 
     void Update()
     {
-        //Debug.Log("test");
-        //Check for sight and attack range
+        EnemyRoutinesCheck();
+    }
+
+    #region Enemy Profile
+
+    Animator animator;
+    public HealthBar healthBar;
+    public int currentHealth, maxHealth;
+
+    private bool isDead = false;
+    private void initEnemy()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        player = FindObjectOfType<Player>().transform;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+        currPatrolPoint = 0;
+        inPosition = false;
+        isDead = true;
+
+        rifle_walk.SetActive(true);
+        rifle_shoot.SetActive(false);
+        bomb.SetActive(false);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        this.currentHealth -= damage;
+        healthBar.SetHealth(this.currentHealth);
+
+        if (currentHealth <= 0 && !isDead)
+        {
+            Die();
+        }
+    }
+
+    #endregion
+
+    #region Enemy Attack, Chase, Patrol
+
+    public RaycastWeapon weapon;
+    public GameObject rifle_shoot, rifle_walk;
+    public GameObject bomb;
+    public EnemySpawner spawner;
+    public Transform player;
+    public NavMeshAgent agent;
+    public LayerMask whatIsGround, whatIsPlayer;
+    public List<Transform> patrolPoints = new List<Transform>();
+
+    public bool chaseAbility, inPosition;
+    public int patrolIdx, respawnDelay, chanceOfDrop;
+    private int currPatrolPoint;
+
+    public float timeBetweenAttacks;
+    private bool alreadyAttacked;
+
+    public float sightRange, attackRange;
+    public bool playerInSightRange, playerInAttackRange;
+    private bool inRange, changeDirection = false;
+
+    private void EnemyRoutinesCheck()
+    {
+        updateInRangeState();
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
@@ -101,7 +118,6 @@ public class Enemy : MonoBehaviour
 
     private void AttackPlayer()
     {
-        //Make sure enemy doesn't move
         rifle_shoot.SetActive(true);
         rifle_walk.SetActive(false);
 
@@ -109,17 +125,16 @@ public class Enemy : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
-        Debug.Log(name);
-        weapon.raycastDest = player;
 
         if (!alreadyAttacked)
         {
-            weapon.StartFiring();
-            if (weapon.isFiring)
-            {
-                weapon.UpdateFiring(Time.deltaTime);
-            }
-            weapon.UpdateBullets(Time.deltaTime);
+            Debug.Log(name + " want to shoot");
+            weapon.Shoot();
+            //weapon.StartFiring();
+            //if (weapon.isFiring)
+            //{
+            //    weapon.UpdateFiring(Time.deltaTime);
+            //}
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -130,23 +145,28 @@ public class Enemy : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    public void TakeDamage(int damage)
+    #endregion
+
+    #region Enemy Special Effect Impact
+    private void updateInRangeState()
     {
-        this.currentHealth -= damage;
-        healthBar.SetHealth(this.currentHealth);
-        Debug.Log("health rn " + currentHealth + " dmg" + damage);
-
-        if (currentHealth <= 0)
-        {
-            Die();
-
-            Invoke(nameof(DestroyEnemy), 0.5f);
-        }
+        bomb.SetActive(inRange);
     }
+
+    public void setInRange(bool value)
+    {
+        inRange = value;
+    }
+
+    #endregion
+
+    #region Enemy Die Logic
+
+    public GameObject coreItem;
 
     public bool willDropItem()
     {
-        if (Random.Range(1, 10) <= chanceOfDrop / 10)
+        if (Random.Range(1, 100) <= chanceOfDrop)
             return true;
 
         return false;
@@ -154,18 +174,30 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        if (willDropItem())
+        if (name.ToLower().Contains("mech"))
         {
-            DropItem dropItem = FindObjectOfType<DropItem>();
-            Instantiate(dropItem.randomItemDrop(), transform.position, Quaternion.identity);
+
+        }
+        else
+        {
+            isDead = true;
+            Instantiate(coreItem, transform.position, Quaternion.identity);
+            if (willDropItem())
+            {
+                DropItem dropItem = FindObjectOfType<DropItem>();
+                Instantiate(dropItem.randomItemDrop(), transform.position, Quaternion.identity);
+            }
+            DestroyEnemy();
         }
     }
 
     private void DestroyEnemy()
     {
-        Destroy(gameObject);
-        spawner.cleanPatroliExist(enemyType, patrolIdx, respawnDelay);
+        spawner.cleanPatroliExist(name, patrolIdx, respawnDelay);
+        Destroy(gameObject, 4f);
     }
+
+    #endregion
 
     private void OnDrawGizmosSelected()
     {

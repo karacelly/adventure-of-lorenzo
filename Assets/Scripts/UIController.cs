@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
     public static bool isPaused, isFirst;
-    public static bool inDialogue;
-    public GameObject pauseMenuUI, dialogUI1, playUI, deathUI;
-    public GameObject mainCamera, kenPlayMode, kenDialogueMode;
+    public static bool inDialogue, inBasement;
+    public GameObject pauseMenuUI, dialogUI1, playUI, deathUI, victoryUI;
+    public GameObject mainCamera, kenPlayMode;
     public Camera dialogueCam1;
+
+    public TMP_Text timeStampText;
 
     public void PauseGame()
     {
@@ -55,9 +58,25 @@ public class UIController : MonoBehaviour
         isPaused = true;
     }
 
+    public void WinGame()
+    {
+        pauseMenuUI.SetActive(false);
+        playUI.SetActive(false);
+        victoryUI.SetActive(true);
+
+        Time.timeScale = 0f;
+
+        timeStampText.text = "Finished in " + Stopwatch.minute.ToString("00") + ":" + Stopwatch.seconds.ToString("00");
+    }
+
     public void RedirectMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 0);
     }
 
     private bool activateCam = false;
@@ -66,11 +85,11 @@ public class UIController : MonoBehaviour
     {
         if (inDialogue)
         {
+            dialogUI1.SetActive(true);
             playUI.SetActive(false);
             dialogueCam1.enabled = true;
             mainCamera.SetActive(false);
-            kenDialogueMode.SetActive(true);
-            kenPlayMode.SetActive(false);
+            kenPlayMode.SetActive(true);
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -80,12 +99,12 @@ public class UIController : MonoBehaviour
             dialogUI1.SetActive(false);
             playUI.SetActive(true);
             dialogueCam1.enabled = false;
+            mainCamera.SetActive(true);
             if (!activateCam)
             {
                 mainCamera.SetActive(true);
                 activateCam = true;
             }
-            kenDialogueMode.SetActive(false);
             kenPlayMode.SetActive(true);
 
             if(isFirst)
@@ -118,5 +137,6 @@ public class UIController : MonoBehaviour
         inDialogue = true;
         isFirst = true;
         isPaused = false;
+        inBasement = false;
     }
 }

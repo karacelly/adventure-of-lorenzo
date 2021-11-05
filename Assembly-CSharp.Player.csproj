@@ -60,10 +60,10 @@
     <Compile Include="Assets\Scripts\CharacterAimingScript.cs" />
     <Compile Include="Assets\Scripts\HealthBar.cs" />
     <Compile Include="Assets\Scripts\CharacterLocomotion.cs" />
+    <Compile Include="Assets\EnemyBullet.cs" />
     <Compile Include="Assets\CodeMonkey\MonoBehaviours\CameraFollowSetup.cs" />
     <Compile Include="Assets\CodeMonkey\MonoBehaviours\CameraFollow.cs" />
     <Compile Include="Assets\Shared\Scripts\ProximityActivate.cs" />
-    <Compile Include="Assets\Scripts\WarriorEnemy.cs" />
     <Compile Include="Assets\CodeMonkey\Utils\World_Bar.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
@@ -146,8 +146,11 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\CodeMonkey\CMDebug.cs" />
     <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
-    <Compile Include="Assets\Scripts\ActiveWeapon.cs" />
     <Compile Include="Assets\Scripts\DropItem.cs" />
+    <Compile Include="Assets\Scripts\ActiveWeapon.cs" />
+    <Compile Include="Assets\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Sound.cs" />
+    <Compile Include="Assets\Scripts\BasementDoor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\NavMeshComponents-master\ProjectSettings\ProjectVersion.txt" />

@@ -6,7 +6,7 @@ using TMPro;
 public class Stopwatch : MonoBehaviour
 {
     private float timeStart, timeElapsed;
-    private int minute, seconds;
+    public static int minute, seconds;
     private bool isFirst;
 
     public TMP_Text text;

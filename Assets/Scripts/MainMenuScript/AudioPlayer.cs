@@ -8,7 +8,7 @@ public class AudioPlayer : MonoBehaviour
     private static readonly string VolumePref = "VolumePref";
     private int firstPlayInt;
     public Slider volumeSlider;
-    private float volumeFloat;
+    public static float volumeFloat;
     public AudioSource[] allAudios;
 
     void Start()
