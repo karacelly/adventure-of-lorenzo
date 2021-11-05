@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Assets\CodeMonkey\Utils\Button_UI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
+    <Compile Include="Assets\AudioManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\CodeMonkey\Utils\World_Mesh.cs" />
     <Compile Include="Assets\Scripts\CharacterAimingScript.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets\Scripts\MainMenuScript\SettingsMenu.cs" />
     <Compile Include="Assets\Shared\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Sound.cs" />
     <Compile Include="Assets\Scripts\PeluruCannon.cs" />
     <Compile Include="Assets\CodeMonkey\Utils\UI_Sprite.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Assets\Scripts\CrossHairTarget.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\CodeMonkey\Utils\UI_TextComplex.cs" />
+    <Compile Include="Assets\Scripts\BasementDoor.cs" />
     <Compile Include="Assets\Scripts\DrawCircle.cs" />
     <Compile Include="Assets\CodeMonkey\Utils\Button_Sprite.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
@@ -148,9 +151,7 @@
     <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
     <Compile Include="Assets\Scripts\DropItem.cs" />
     <Compile Include="Assets\Scripts\ActiveWeapon.cs" />
-    <Compile Include="Assets\AudioManager.cs" />
-    <Compile Include="Assets\Scripts\Sound.cs" />
-    <Compile Include="Assets\Scripts\BasementDoor.cs" />
+    <Compile Include="Assets\Mech.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\NavMeshComponents-master\ProjectSettings\ProjectVersion.txt" />

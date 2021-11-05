@@ -326,6 +326,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    public GameObject viper;
+    public Transform viperTarget;
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         GameObject g = hit.gameObject;
@@ -343,6 +345,30 @@ public class Player : MonoBehaviour
                 inventory.AddItem(g.name);
             }
             Destroy(g);
+        }
+        else if (g.tag.Equals("Enemy"))
+        {
+            if (g.name.ToLower().Contains("mech"))
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    gameObject.SetActive(false);
+                    g.GetComponent<Mech>().overriden = true;
+                    //CharacterController enemy = g.GetComponent<CharacterController>();
+                    //GetComponent<ThirdPersonMovement>().controller = enemy;
+
+                }
+            }
+        }
+        else if(g.tag.Equals("Spaceship"))
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                gameObject.SetActive(false);
+                viper.transform.Translate(viperTarget.position * Time.deltaTime, Space.World);
+                UIController u = FindObjectOfType<UIController>();
+                u.WinGame();
+            }
         }
     }
 
