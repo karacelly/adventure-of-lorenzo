@@ -9,16 +9,24 @@ The basement area consists of some corridors and a big square room. There will b
 In the spaceship area, the player will find an outward facing spaceship which they can enter to complete the game.
 
 ## Controls
-WASD keys to move the character
-Mouse to aim and shoot
-Spacebar to jump
-Shift key to sprint
+The player has three state or mode, which are:
+- Exploration Mode
+    - Use WASD keys to move the character
+    - Spacebar to jump
+- Shooting Mode
+    - Player can switch between Exploration Mode and Shooter Mode by pressing 
+    C key on the keyboard.
+- Aiming Mode
+    - Player can switch between Shooter Mode and Aiming Mode by holding right 
+    click on the mous
+    - Player could change its shoulder view from LEFT to RIGHT, or RIGHT to LEFT
+by pressing TAB.
 
 ## Installation
 To play the game, follow these steps:
+- Clone or download the repository.
+- Open the project in Unity.
+- Build and run the game.
 
-Clone or download the repository.
-Open the project in Unity.
-Build and run the game.
-Credits
-The Adventure of Lorenzo game was developed by [Your Name]. The game assets were obtained from [Asset Store Link] and [Creative Commons Link]. Special thanks to [Contributor Names] for their valuable contributions to the project.
+## Credits
+The Adventure of Lorenzo game was originally developed by LL20-2 and designed to be the project case for a progressive development test for laboratory assistants. The game assets were provided to ease the development process.
